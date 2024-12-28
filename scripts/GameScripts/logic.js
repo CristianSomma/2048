@@ -10,11 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // genero due tessere iniziali
     spawnNewTile();
     spawnNewTile();
-    console.log('griglia iniziale', grid);
-    moveTilesH(false);
 });
 
-function moveTilesH(toRight) {
+export function moveTilesH(toRight) {
     // salvo un array con tutte le celle occupate
     const cellsToMove = grid.getOccupiedCells();
 
@@ -44,8 +42,11 @@ function moveTilesH(toRight) {
 
             
         } while ((targetX >= 0 && targetX <= 3) && targetX !== cell.x);
-        console.log(grid)
+    
     });
+
+    // quando un movimento viene eseguito inizia un nuovo turno e quindi genera una nuova tessera
+    spawnNewTile();
 }
 
 function spawnNewTile() {
