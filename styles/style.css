@@ -1,0 +1,61 @@
+@font-face {
+    font-family: Marcellus;
+    src: url(../assets/fonts/Marcellus/Marcellus-Regular.ttf);
+}
+
+@font-face {
+    font-family: MarcellusSC;
+    src: url(../assets/fonts/Marcellus_SC/MarcellusSC-Regular.ttf);
+}
+
+* {
+    box-sizing: border-box;
+    font-family: Marcellus;
+}
+
+html, body {
+    margin: 0;
+}
+
+.title {
+    font-family: MarcellusSC;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.xy-centered {
+    justify-content: center;
+    align-items: center;
+}
+
+#main-container {
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--backgroundColor);
+}
+
+.btn {
+    font-family: MarcellusSC;
+    cursor: pointer;
+}
+
+.primary {
+    padding: 1.35rem 7rem;
+    font-size: 2.5rem;
+    border: none;
+    border-radius: 2rem;
+    color: var(--backgroundColor);
+    background-color: var(--red);
+    /* Gradiente radiale, quindi forma un elisse e parte da 30% orizzontale e 15% verticale  */
+    background-image: radial-gradient(at 30% 15%, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0));
+    /* box-shadow: posizione-x posizione-y sfumatura colore */
+    box-shadow: 4px 38px 62px rgba(0, 0, 0, 0.6);
+}

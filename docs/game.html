@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="../styles/palette.css">
+    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="../styles/game.css">
+    <!-- Uso il module poiché importo il constructor di Tile -->
+    <script type="module" src="../scripts/GameScripts/logic.js"></script>
+    <script type="module" src="../scripts/GameScripts/inputs.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2048</title>
+</head>
+<body>
+    <div class="flex-column" id="main-container">
+        <section>
+            <div class="flex-row" id="stats-container">
+                <div class="flex-column stats-box">
+                    <img src="../assets/icons/RecordIcon.png" alt="Record icon">
+                    <p>0</p>
+                </div>
+                <div class="flex-column stats-box" id="timer">
+                    <img src="../assets/icons/AlarmIcon.png" alt="Timer icon">
+                    <p>00:00:00</p>
+                </div>
+            </div>
+        </section>
+        <main>
+            <div class="gameboard">
+                <div class="grid">
+                    <div class="grid-cell" data-x="0" data-y="0" style="border-top-left-radius: 1.5rem;"></div>
+                    <div class="grid-cell" data-x="1" data-y="0"></div>
+                    <div class="grid-cell" data-x="2" data-y="0"></div>
+                    <div class="grid-cell" data-x="3" data-y="0" style="border-top-right-radius: 1.5rem;"></div>
+                    <div class="grid-cell" data-x="0" data-y="1"></div>
+                    <div class="grid-cell" data-x="1" data-y="1"></div>
+                    <div class="grid-cell" data-x="2" data-y="1"></div>
+                    <div class="grid-cell" data-x="3" data-y="1"></div>
+                    <div class="grid-cell" data-x="0" data-y="2"></div>
+                    <div class="grid-cell" data-x="1" data-y="2"></div>
+                    <div class="grid-cell" data-x="2" data-y="2"></div>
+                    <div class="grid-cell" data-x="3" data-y="2"></div>
+                    <div class="grid-cell" data-x="0" data-y="3" style="border-bottom-left-radius: 1.5rem;"></div>
+                    <div class="grid-cell" data-x="1" data-y="3"></div>
+                    <div class="grid-cell" data-x="2" data-y="3"></div>
+                    <div class="grid-cell" data-x="3" data-y="3" style="border-bottom-right-radius: 1.5rem;"></div>
+                </div>  
+            </div>
+            <div class="gameboard transparent">
+                <div class="grid" id="tiles-grid">
+                </div>
+            </div>
+        </main>
+        <section>
+            <div class="flex-row" id="bonus-container">
+                <button class="bonus-btn">1</button>
+                <button class="bonus-btn">2</button>
+                <button class="bonus-btn">3</button>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
