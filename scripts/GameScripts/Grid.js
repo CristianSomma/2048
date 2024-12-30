@@ -9,8 +9,8 @@ export default class Grid {
          ed evitare di utilizzare due cicli per iterare nell'array principale e quello interno */
         this.grid.flat().forEach(Cell => {
             // Se la cella contiene una tessera, quindi non null, aggiorno la sua posizione nella griglia html
-            if(Cell.element){
-                Cell.element.style.gridArea = `${Cell.y + 1} / ${Cell.x + 1} / ${Cell.y + 2} / ${Cell.x + 2}`
+            if(Cell.cellElement){
+                Cell.cellElement.style.gridArea = `${Cell.y + 1} / ${Cell.x + 1} / ${Cell.y + 2} / ${Cell.x + 2}`
             }
         });
     }

@@ -22,24 +22,30 @@ export function moveTilesH(toRight) {
         let targetX = toRight ? 3 : 0;
 
         do {
+            grid.updateHtmlGrid();
+            
             // se la cella si trova già nella posizione in cui deve andare viene interrotto subito il ciclo
             if(cell.x == targetX){
                 break;
-                // se la cella sulla stessa riga e all'estremo determinato non è occupata assume il valore della cella da spostare
-            }else if (!grid.isCellOccupied(targetX, cell.y)) {
+            }
+            
+            // se la cella sulla stessa riga e all'estremo determinato non è occupata assume il valore della cella da spostare
+            if (!grid.isCellOccupied(targetX, cell.y)) {
                 grid.grid[cell.y][targetX].cellElement = cell.cellElement;
                 // la cella in cui si trovava quella da muovere viene aggiornata
                 cell.cellElement = null;
                 // si esce dal ciclo con il break
                 break;
             }
-            // nel caso in cui la cella è occupata allora in base alla direzione si modifica il target orizzontale
-            if(toRight){
-                targetX--;
-            }else{
-                targetX++;
-            }
 
+            if(grid.grid[cell.y][targetX].cellElement.innerHTML == cell.cellElement.innerHTML){
+                grid.grid[cell.y][targetX].cellElement.innerHTML *= 2;
+                cell.cellElement = null;
+                break;
+            }
+            
+            // nel caso in cui la cella è occupata allora in base alla direzione si modifica il target orizzontale
+            targetX += toRight ? -1 : +1;
             
         } while ((targetX >= 0 && targetX <= 3) && targetX !== cell.x);
     
@@ -47,6 +53,10 @@ export function moveTilesH(toRight) {
 
     // quando un movimento viene eseguito inizia un nuovo turno e quindi genera una nuova tessera
     spawnNewTile();
+}
+
+function mergeTiles() {
+
 }
 
 function spawnNewTile() {

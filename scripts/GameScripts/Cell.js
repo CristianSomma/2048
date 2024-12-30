@@ -17,8 +17,12 @@ export default class Cell {
         return this.element;
     }
 
+    removeCellElement(){
+        this.element.remove();
+    }
+
     renderHtmlElement(){
-        document.getElementById('tiles-grid').appendChild(this.element);
-        this.element.style.gridArea = `${this.y+1} / ${this.x+1} / ${this.y+2} / ${this.x+2}`        
+        document.getElementById('tiles-grid').appendChild(this.cellElement);
+        this.cellElement.style.gridArea = `${this.y+1} / ${this.x+1} / ${this.y+2} / ${this.x+2}`        
     }
 }
