@@ -26,6 +26,31 @@ document.addEventListener('mouseup', evt => {
     checkMovementDirection(deltaX, deltaY);
 })
 
+document.addEventListener('keydown', evt => {
+    switch(evt.key){
+        
+        case 'ArrowUp':
+        case 'w':
+            moveTilesVertically(false);
+        break;
+        
+        case 'ArrowLeft':
+        case 'a':
+            moveTilesHorizontally(false);
+        break;
+
+        case 'ArrowRight':
+        case 's':
+            moveTilesHorizontally(true);
+        break;
+
+        case 'ArrowDown':
+        case 's':
+            moveTilesVertically(true);
+        break;
+    }
+})
+
 
 function checkMovementDirection(deltaX, deltaY){
     // se la distanza tra l'inizio del tocco e la fine è maggiore di 50px in almeno una direzione viene considerato come tocco intenzionale

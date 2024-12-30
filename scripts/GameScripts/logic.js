@@ -8,11 +8,29 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log(grid.gridArray);
     spawnNewTile();
     spawnNewTile();
+    timer();
 });
+
+function timer(){
+    let secondsLeft = 60;
+    setInterval(() => {
+        if(secondsLeft == 0){
+            console.log('nigga');
+            return;
+        }else{
+            secondsLeft--;
+            document.getElementById('timer-number').innerHTML = `00:${secondsLeft}`
+        }
+    }, 1000)
+}
 
 function spawnNewTile(){
     // costante contenente una cella casuale vuota
     const randomCell = grid.getRandomCell();
+    if(!randomCell){
+        console.log('nigga');
+        return;
+    }
     // crea un elemento html con numero casuale (2 o 4) e lo assegna alla proprietà #element tramite setter
     randomCell.htmlElement = createHtmlElement(randomNumber());    
 }

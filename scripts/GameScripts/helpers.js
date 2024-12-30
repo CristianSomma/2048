@@ -9,7 +9,7 @@ export function createHtmlElement(number) {
 
 export function randomNumber(){
     return (
-        Math.random() < 0.65 ? 2 : 4
+        Math.random() < 0.75 ? 2 : 4
     )
 }
 
