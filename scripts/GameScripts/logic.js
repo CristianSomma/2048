@@ -1,94 +1,115 @@
-import Cell from "./Cell.js";
 import Grid from "./Grid.js";
+import { createHtmlElement, generateGrid, randomNumber } from "./helpers.js";
 
 let grid;
 
 document.addEventListener('DOMContentLoaded', () => {
-    /* Creo un'istanza dell'oggetto griglia e gli assegno come
-    proprietà di grid un array bidimensionale che rappresenta la griglia html*/
     grid = new Grid(generateGrid());
-    // genero due tessere iniziali
+    console.log(grid.gridArray);
     spawnNewTile();
     spawnNewTile();
 });
 
-export function moveTilesH(toRight) {
-    // salvo un array con tutte le celle occupate
-    const cellsToMove = grid.getOccupiedCells();
+function spawnNewTile(){
+    // costante contenente una cella casuale vuota
+    const randomCell = grid.getRandomCell();
+    // crea un elemento html con numero casuale (2 o 4) e lo assegna alla proprietà #element tramite setter
+    randomCell.htmlElement = createHtmlElement(randomNumber());    
+}
 
-    cellsToMove.forEach(cell => {
-        // se la direzione è destra allora il target iniziale in cui la cella deve finire è 3 (estremo a destra) 
-        // stessa cosa per la direzione sinistra
-        let targetX = toRight ? 3 : 0;
+export function moveTilesHorizontally(isToRight) {
+    // itero solamente per le celle occupate evitando di sprecare risorse
+    let occupiedCells = grid.getOccupiedCells();
+
+    // inverto l'ordine dell'array se la direzione è verso destra così che l'ordine delle celle viene mantenuto anche durante lo spostamento
+    occupiedCells = isToRight ? occupiedCells.reverse() : occupiedCells;
+    
+    occupiedCells.forEach(cellToMove => {
+        // se la direzione è verso destra allora la coordinata x di riferimento (in cui deve spostarsi la tessera) è 3 (estremo destra), viceversa per sinistra.
+        let targetX = isToRight ? 3 : 0;
 
         do {
-            grid.updateHtmlGrid();
-            
-            // se la cella si trova già nella posizione in cui deve andare viene interrotto subito il ciclo
-            if(cell.x == targetX){
-                break;
-            }
-            
-            // se la cella sulla stessa riga e all'estremo determinato non è occupata assume il valore della cella da spostare
-            if (!grid.isCellOccupied(targetX, cell.y)) {
-                grid.grid[cell.y][targetX].cellElement = cell.cellElement;
-                // la cella in cui si trovava quella da muovere viene aggiornata
-                cell.cellElement = null;
-                // si esce dal ciclo con il break
+            // cella di riferimento in cui la tessera dovrebbe spostarsi
+            const targetedCell = grid.gridArray[cellToMove.y][targetX]; // Calcola la cella target ad ogni iterazione
+            // se la coordinata x di riferimento è uguale alla attuale coordinata della tessera non viene spostata 
+            if (targetX === cellToMove.x) {
                 break;
             }
 
-            if(grid.grid[cell.y][targetX].cellElement.innerHTML == cell.cellElement.innerHTML){
-                grid.grid[cell.y][targetX].cellElement.innerHTML *= 2;
-                cell.cellElement = null;
+            // se la cella di riferimento non è già occupata
+            if (!targetedCell.htmlElement) {
+                // l'elemento html della cella di riferimento da null assume l'elemento html della tessera da spostare
+                targetedCell.htmlElement = cellToMove.htmlElement;
+                // la cella di partenza viene resettata
+                cellToMove.resetCell();
                 break;
             }
-            
-            // nel caso in cui la cella è occupata allora in base alla direzione si modifica il target orizzontale
-            targetX += toRight ? -1 : +1;
-            
-        } while ((targetX >= 0 && targetX <= 3) && targetX !== cell.x);
-    
+
+            if(targetedCell.tileValue === cellToMove.tileValue){
+                targetedCell.tileValue *= 2;
+                cellToMove.removeHtmlElement();
+                break;
+            }
+
+            // nel caso in cui la cella di riferimento era occupata allora riduco di 1 la coordinata di riferimento o la aumento di uno in base alla direzione
+            targetX += isToRight ? -1 : 1;
+
+        } while (targetX >= 0 && targetX <= 3);
     });
 
-    // quando un movimento viene eseguito inizia un nuovo turno e quindi genera una nuova tessera
+    // aggiorno la griglia html
+    grid.updateHtmlGrid();
+
+    // se viene eseguito un movimento significa che è stato terminato un round e quindi compare una nuova tessera
     spawnNewTile();
 }
 
-function mergeTiles() {
+export function moveTilesVertically(isToDown) {
+    // itero solamente per le celle occupate evitando di sprecare risorse
+    let occupiedCells = grid.getOccupiedCells();
 
-}
+    // inverto l'ordine dell'array se la direzione è verso il basso così che l'ordine delle celle viene mantenuto anche durante lo spostamento
+    occupiedCells = isToDown ? occupiedCells.reverse() : occupiedCells;
+    
+    occupiedCells.forEach(cellToMove => {
+        // se la direzione è verso il basso allora la coordinata y di riferimento (in cui deve spostarsi la tessera) è 3 (estremo in basso), viceversa per sopra.
+        let targetY = isToDown ? 3 : 0;
 
-function spawnNewTile() {
-    // uso il metodo di grid per ottenere una cella randomica vuota 
-    let gridCell = grid.getRandomCell();
-    // assegno al metodo di quella Cell un elemento html con numero scelto randomicamente
-    gridCell.cellElement = createHtmlTile(randomTileNumber());
-}
+        do {
+            // cella di riferimento in cui la tessera dovrebbe spostarsi
+            const targetedCell = grid.gridArray[targetY][cellToMove.x]; // Calcola la cella target ad ogni iterazione
+            // se la coordinata y di riferimento è uguale alla attuale coordinata della tessera non viene spostata 
+            if (targetY === cellToMove.y) {
+                break;
+            }
 
-function createHtmlTile(number) {
-    const div = document.createElement('div');
-    div.classList.add('tile');
-    div.innerHTML = number;
-    return div;
-}
+            // se la cella di riferimento non è già occupata
+            if (!targetedCell.htmlElement) {
+                // l'elemento html della cella di riferimento da null assume l'elemento html della tessera da spostare
+                targetedCell.htmlElement = cellToMove.htmlElement;
+                // la cella di partenza viene resettata
+                cellToMove.resetCell();
+                break;
+            }
 
-function randomTileNumber() {
-    // 65% di probabilità che esca 2 e 35% che esca 4
-    return Math.random() < 0.65 ? 2 : 4;
-}
+            // nel caso in cui la cella di riferimento sia occupata ma ha lo stesso valore di quella da spostare
+            if(targetedCell.tileValue === cellToMove.tileValue){
+                // la cella di riferimento duplica il suo valore
+                targetedCell.tileValue *= 2;
+                // la cella da spostare viene eliminata dal DOM simulando il merging tra le due
+                cellToMove.removeHtmlElement();
+                break;
+            }
 
-function generateGrid() {
-    const grid = [];
-    // genero una griglia bidimensionale con 4 array monodimensionali con ciascuno 4 elementi
-    for (let y = 0; y < 4; y++) {
-        const gridRow = [];
-        for (let x = 0; x < 4; x++) {
-            // inserisco un'istanza dell'oggetto cell, con le coordinate rispettive e l'elemento html con valore null
-            gridRow.push(new Cell(x, y, null));
-        }
-        grid.push(gridRow);
-    }
+            // nel caso in cui la cella di riferimento era occupata allora riduco di 1 la coordinata di riferimento o la aumento di uno in base alla direzione
+            targetY += isToDown ? -1 : 1;
 
-    return grid;
+        } while (targetY >= 0 && targetY <= 3);
+    });
+
+    // aggiorno la griglia html
+    grid.updateHtmlGrid();
+
+    // se viene eseguito un movimento significa che è stato terminato un round e quindi compare una nuova tessera
+    spawnNewTile();
 }

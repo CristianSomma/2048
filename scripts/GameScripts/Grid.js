@@ -1,51 +1,35 @@
 export default class Grid {
+    #grid
+
     constructor (grid) {
-        // metodo che conterrà l'array bidimensionale che rappresenta la griglia html
-        this.grid = grid;
+        this.#grid = grid;
     }
 
-    updateHtmlGrid(){
-        /* uso flat() per rendere l'array bidimensionale monodimensionale
-         ed evitare di utilizzare due cicli per iterare nell'array principale e quello interno */
-        this.grid.flat().forEach(Cell => {
-            // Se la cella contiene una tessera, quindi non null, aggiorno la sua posizione nella griglia html
-            if(Cell.cellElement){
-                Cell.cellElement.style.gridArea = `${Cell.y + 1} / ${Cell.x + 1} / ${Cell.y + 2} / ${Cell.x + 2}`
-            }
-        });
+    set gridArray(newArray){
+        this.#grid = newArray;
     }
 
-    // funzione che controlla se la cella nelle coordinate inserite è occupata o no
-    isCellOccupied(x, y){
-        console.log(this.grid[y][x])
-        if(this.grid[y][x].element){
-            return true;
-        }else{
-            return false;
-        }
+    get gridArray(){
+        return this.#grid;
     }
 
-    // ritorna un nuovo array contenente le celle occupate, filtrando l'array iniziale
+    getRandomCell(){
+        const freeCells = this.#grid.flat().filter(cell => cell.htmlElement == null)
+        
+        return (
+            freeCells[Math.floor(Math.random() * freeCells.length)]
+        );
+    }
+
     getOccupiedCells(){
-        const occupiedCells = this.grid
-        .flat()
-        .filter(Cell => Cell.element !== null)
+        const occupiedCells = this.#grid.flat().filter(cell => cell.htmlElement)
         return occupiedCells;
     }
 
-    // funzione che ritorna una cella randomica
-    getRandomCell(){
-        let randomX, randomY;
-        // effettua un ciclo che ritorna una nuova cella randomica fino a quando questa non è vuota
-        do {
-            randomX = Math.floor(Math.random() * 4);
-            randomY = Math.floor(Math.random() * 4);
-        } while (this.grid[randomY][randomX].element);
-        
-        return this.grid[randomY][randomX];
-    }
-
-    setCellElementAt(x, y, element){
-        this.grid[y][x].element = element;
+    updateHtmlGrid(){
+        const cellsToRender = this.getOccupiedCells();
+        cellsToRender.forEach(cell => {
+            cell.updateHtmlElement();
+        });
     }
 }
