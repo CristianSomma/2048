@@ -1,5 +1,50 @@
 import Cell from "./Cell.js";
 
+export function timer(timerLenght){
+    
+    // calcolo dei minuti
+    let minutesLeft = Math.floor(timerLenght / 60);
+    // calcolo dei secondi
+    let secondsLeft = timerLenght - (minutesLeft * 60);
+    
+
+    let interval = setInterval(() => {
+        let minutes = minutesLeft;
+        let seconds = secondsLeft;
+        
+        // se i minuti e i secondi sono entrambi zero
+        if(minutesLeft === 0 && secondsLeft === 0){
+            console.log('end');
+            // ferma l'esecuzione del setInterval
+            clearInterval(interval);
+            // ritorna la funzione
+            return;
+        }
+
+        // se i secondi sono zero e i minuti no...
+        if(secondsLeft === 0 && minutesLeft>0){
+            // si toglie un minuto e si resetta i secondi a 59
+            minutesLeft--;
+            secondsLeft = 59;
+        }else{
+            // altrimenti avviene la normale esecuzione con la riduzione di un secondo alla volta
+            secondsLeft--;
+        }
+
+        // se i secondi o i minuti sono meno di 10, quindi a singola cifra per estetica si aggiunge uno zero di fronte
+        if(secondsLeft<10){
+            seconds = `0${secondsLeft}`;
+        }
+
+        if(minutesLeft<10){
+            minutes = `0${minutesLeft}`; 
+        }
+
+        // interpolazione e "rendering"
+        document.getElementById('timer-number').innerHTML = `${minutes}:${seconds}`
+    }, 1000)
+}
+
 export function createHtmlElement(number) {
     const div = document.createElement('div');
     div.classList.add('tile');

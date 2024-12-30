@@ -1,39 +1,32 @@
 import Grid from "./Grid.js";
-import { createHtmlElement, generateGrid, randomNumber } from "./helpers.js";
+import { createHtmlElement, generateGrid, randomNumber, timer } from "./helpers.js";
 
 let grid;
+let points = 0; 
 
 document.addEventListener('DOMContentLoaded', () => {
     grid = new Grid(generateGrid());
     console.log(grid.gridArray);
     spawnNewTile();
     spawnNewTile();
-    timer();
+    timer(120);
 });
 
-function timer(){
-    let secondsLeft = 60;
-    setInterval(() => {
-        if(secondsLeft == 0){
-            console.log('nigga');
-            return;
-        }else{
-            secondsLeft--;
-            document.getElementById('timer-number').innerHTML = `00:${secondsLeft}`
-        }
-    }, 1000)
+function updatePoints(){
+    document.getElementById('points-number').innerHTML = points;
 }
 
 function spawnNewTile(){
     // costante contenente una cella casuale vuota
     const randomCell = grid.getRandomCell();
-    if(!randomCell){
-        console.log('nigga');
-        return;
-    }
+    // if(!randomCell){
+    //     console.log('nigga');
+    //     return;
+    // }
     // crea un elemento html con numero casuale (2 o 4) e lo assegna alla proprietà #element tramite setter
     randomCell.htmlElement = createHtmlElement(randomNumber());    
 }
+
 
 export function moveTilesHorizontally(isToRight) {
     // itero solamente per le celle occupate evitando di sprecare risorse
@@ -63,8 +56,15 @@ export function moveTilesHorizontally(isToRight) {
                 break;
             }
 
+            // nel caso in cui la cella di riferimento sia occupata ma ha lo stesso valore di quella da spostare
             if(targetedCell.tileValue === cellToMove.tileValue){
+                // la cella di riferimento duplica il suo valore
                 targetedCell.tileValue *= 2;
+                // aggiungo il valore della cella risultate al punteggio
+                points += targetedCell.tileValue;
+                // aggiorno il DOM del nuovo punteggio
+                updatePoints();
+                // la cella da spostare viene eliminata dal DOM simulando il merging tra le due
                 cellToMove.removeHtmlElement();
                 break;
             }
@@ -80,6 +80,7 @@ export function moveTilesHorizontally(isToRight) {
 
     // se viene eseguito un movimento significa che è stato terminato un round e quindi compare una nuova tessera
     spawnNewTile();
+
 }
 
 export function moveTilesVertically(isToDown) {
@@ -114,6 +115,10 @@ export function moveTilesVertically(isToDown) {
             if(targetedCell.tileValue === cellToMove.tileValue){
                 // la cella di riferimento duplica il suo valore
                 targetedCell.tileValue *= 2;
+                // aggiungo il valore della cella risultate al punteggio
+                points += targetedCell.tileValue;
+                // aggiorno il DOM del nuovo punteggio
+                updatePoints();
                 // la cella da spostare viene eliminata dal DOM simulando il merging tra le due
                 cellToMove.removeHtmlElement();
                 break;

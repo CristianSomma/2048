@@ -40,7 +40,7 @@ document.addEventListener('keydown', evt => {
         break;
 
         case 'ArrowRight':
-        case 's':
+        case 'd':
             moveTilesHorizontally(true);
         break;
 
