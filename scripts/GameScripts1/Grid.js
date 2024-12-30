@@ -21,4 +21,15 @@ export default class Grid {
         );
     }
 
+    getOccupiedCells(){
+        const occupiedCells = this.#grid.flat().filter(cell => cell.htmlElement)
+        return occupiedCells;
+    }
+
+    updateHtmlGrid(){
+        const cellsToRender = this.getOccupiedCells();
+        cellsToRender.forEach(cell => {
+            cell.updateHtmlElement();
+        });
+    }
 }
