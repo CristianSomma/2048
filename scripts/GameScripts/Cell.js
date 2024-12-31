@@ -72,9 +72,18 @@ export default class Cell {
     }
 
     updateHtmlElement(){
-        // determino la posizione della tessera con il comando CSS grid-area
-        this.#element.style.gridArea = `${this.y+1} / ${this.x+1} / ${this.y+2} / ${this.x+2}`
         // inserisco nella griglia (#tiles-grid) l'elemento html della cella
         document.getElementById('tiles-grid').appendChild(this.#element);        
+     
+        // prendo la lista delle classi dell'elemento html della cella e lo rendo un array con l'operatore ... per poi poter utilizzare i metodi dell'array
+        [...this.#element.classList]
+        .filter(htmlClass => htmlClass.startsWith('pos-')) // filtro le classi mantenendo solo quelle che iniziano con "pos-" che quindi indicano la posizione della cella
+        .forEach(htmlClass => {
+            // ogni cella che inizia con "pos-" viene rimossa
+            this.#element.classList.remove(htmlClass);
+        })
+
+        // aggiungo una nuova classe con la posizione della cella
+        this.#element.classList.add(`pos-${this.y+1}-${this.x+1}`)    
     }
 }

@@ -4,7 +4,7 @@ export default class Grid {
     constructor (grid, htmlGrid) {
         this.#grid = grid;
     }
-
+    
     set gridArray(newArray){
         this.#grid = newArray;
     }
