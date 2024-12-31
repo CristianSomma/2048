@@ -1,4 +1,4 @@
-import { moveTilesHorizontally, moveTilesVertically } from "./logic.js"
+import { moveTiles, moveTilesHorizontally, moveTilesVertically } from "./logic.js"
 
 let startCoordinateX, startCoordinateY;
 
@@ -31,22 +31,22 @@ document.addEventListener('keydown', evt => {
         
         case 'ArrowUp':
         case 'w':
-            moveTilesVertically(false);
+            moveTiles('up');
         break;
         
         case 'ArrowLeft':
         case 'a':
-            moveTilesHorizontally(false);
+            moveTiles('left');
         break;
 
         case 'ArrowRight':
         case 'd':
-            moveTilesHorizontally(true);
+            moveTiles('right');
         break;
 
         case 'ArrowDown':
         case 's':
-            moveTilesVertically(true);
+            moveTiles('down');
         break;
     }
 })
