@@ -48,6 +48,7 @@
 
 .grid {
     position: relative;
+    overflow: hidden;
     width: 100%;
     height: 100%;
     display: grid;
@@ -68,8 +69,11 @@
 }
 
 .tile {
+    position: absolute;
+    width: 100%;
+    height: 100%;
     background-color: yellow;
-    transition: transform 0.2s ease-in-out;
+    transition: top 0.2s ease-in-out, left 0.2 ease-in-out;
 }
 
 #stats-container, #gameboard, #bonus-container {

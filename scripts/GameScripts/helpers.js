@@ -1,4 +1,5 @@
 import Cell from "./Cell.js";
+import { moveTiles } from "./logic.js";
 
 export function timer(timerLenght){
     // calcolo dei minuti
@@ -92,4 +93,21 @@ export function checkMovementDirection(deltaX, deltaY){
             }
         }
     }
+}
+
+export function animateTile(cellToMove, targetedCell){
+    let cellToReach = [...document.querySelectorAll('.tile')]
+    .find(cell => (parseInt(cell.dataset.x) == targetedCell.x && parseInt(cell.dataset.y) == targetedCell.y));
+
+    const gridRect = document.querySelector('.grid').getBoundingClientRect();
+    const cellToMoveRect = cellToMove.htmlElement.getBoundingClientRect();
+    const cellToReachRect = cellToReach.getBoundingClientRect();
+
+    // Calcolo la distanza dalla posizione della griglia
+    const deltaTop = cellToReachRect.top - gridRect.top;
+    const deltaLeft = cellToReachRect.left - gridRect.left;
+
+    // Aggiungo i valori di top e left per l'animazione
+    cellToMove.htmlElement.style.top = `${deltaTop}px`;
+    cellToMove.htmlElement.style.left = `${deltaLeft}px`;
 }

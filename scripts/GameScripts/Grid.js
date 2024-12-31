@@ -1,7 +1,7 @@
 export default class Grid {
     #grid
 
-    constructor (grid) {
+    constructor (grid, htmlGrid) {
         this.#grid = grid;
     }
 

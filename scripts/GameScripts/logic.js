@@ -1,5 +1,6 @@
+import Cell from "./Cell.js";
 import Grid from "./Grid.js";
-import { createHtmlElement, generateGrid, randomNumber, timer } from "./helpers.js";
+import { animateTile, createHtmlElement, generateGrid, randomNumber, timer } from "./helpers.js";
 
 let grid;
 let points = 0; 
@@ -68,8 +69,9 @@ export function moveTiles(direction){
 
             // se la cella di riferimento non è già occupata
             if (!targetedCell.htmlElement) {
+                animateTile(cellToMove, targetedCell);
                 // l'elemento html della cella di riferimento da null assume l'elemento html della tessera da spostare
-                targetedCell.htmlElement = cellToMove.htmlElement;
+                targetedCell.htmlElement = cellToMove.htmlElement;                
                 // la cella di partenza viene resettata
                 cellToMove.resetCell();
                 break;
