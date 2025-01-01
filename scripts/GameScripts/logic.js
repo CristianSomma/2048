@@ -1,6 +1,5 @@
-import Cell from "./Cell.js";
 import Grid from "./Grid.js";
-import { animateTile, createHtmlElement, generateGrid, randomNumber, timer } from "./helpers.js";
+import { createHtmlElement, generateGrid, randomNumber, timer } from "./helpers.js";
 
 let grid;
 let points = 0; 
@@ -21,7 +20,7 @@ function spawnNewTile(){
     // costante contenente una cella casuale vuota
     const randomCell = grid.getRandomCell();
     // if(!randomCell){
-    //     console.log('nigga');
+    //     console.log('error');
     //     return;
     // }
     // crea un elemento html con numero casuale (2 o 4) e lo assegna alla proprietà #element tramite setter
@@ -69,7 +68,6 @@ export function moveTiles(direction){
 
             // se la cella di riferimento non è già occupata
             if (!targetedCell.htmlElement) {
-                animateTile(cellToMove, targetedCell);
                 // l'elemento html della cella di riferimento da null assume l'elemento html della tessera da spostare
                 targetedCell.htmlElement = cellToMove.htmlElement;                
                 // la cella di partenza viene resettata

@@ -95,16 +95,33 @@ export function checkMovementDirection(deltaX, deltaY){
     }
 }
 
-export function animateTile(cellToMove, targetedCell){
-    const targetSlot = [...document.querySelectorAll('.grid-cell')]
-        .find(cell => (parseInt(cell.dataset.x) === targetedCell.x) && (parseInt(cell.dataset.y) === targetedCell.y));
+export function animateTile(cellToMove, targetedCell) {
+    // Trovo la cella di destinazione
+    let cellToReach = [...document.querySelectorAll('.grid-cell')].find(
+        cell =>
+            parseInt(cell.dataset.x) === targetedCell.x &&
+            parseInt(cell.dataset.y) === targetedCell.y
+    );
 
-    if(!targetSlot){
-        throw new Error('No grid slot matched the targeted cell.');
+    const isHorizontal = cellToMove.y === targetedCell.y ? true : false;
+    const gridRect = document.querySelector('.grid').getBoundingClientRect();
+    const cellToReachRect = cellToReach.getBoundingClientRect();
+
+    cellToMove.htmlElement.style.position = 'absolute';
+    cellToMove.htmlElement.style.transition = 'top 3s ease-in-out, left 0.3s ease-in-out';
+
+    if(isHorizontal){
+        const deltaLeft = cellToReachRect.left - gridRect.left;
+        cellToMove.htmlElement.style.left = `${deltaLeft}px`;
+    }else{
+        const deltaTop = cellToReachRect.top - gridRect.top;
+        cellToMove.htmlElement.style.top = `${deltaTop}px`;
     }
 
-    const targetSlotRect = targetSlot.getBoundingClientRect();
-    console.log(targetSlotRect.top);
-    
-    cellToMove.htmlElement.style.top = `${targetSlotRect.top}px`
+    cellToMove.htmlElement.addEventListener('transitionend', () => {
+        cellToMove.htmlElement.style.transition = ''; // Rimuove la transizione
+        cellToMove.htmlElement.style.position = 'relative';
+        cellToMove.htmlElement.style.top = '';
+        cellToMove.htmlElement.style.left = '';
+    }, { once: true }); // L'evento si attiva solo una volta
 }

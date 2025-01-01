@@ -1,63 +1,79 @@
 .pos-1-1 {
-    grid-area: 1 / 1 / 2 / 2;
+    top: 0;
+    left: 0;
 }
 
 .pos-1-2 {
-    grid-area: 1 / 2 / 2 / 3;
+    top: 0;
+    left: calc(var(--cellSizes) + var(--gridGaps));
 }
 
 .pos-1-3 {
-    grid-area: 1 / 3 / 2 / 4;
+    top: 0;
+    left: calc((var(--cellSizes) + var(--gridGaps)) * 2);
 }
 
 .pos-1-4 {
-    grid-area: 1 / 4 / 2 / 5;
+    top: 0;
+    left: calc((var(--cellSizes) + var(--gridGaps)) * 3);
 }
 
 .pos-2-1 {
-    grid-area: 2 / 1 / 3 / 2;
+    top: calc(var(--cellSizes) + var(--gridGaps));
+    left: 0;
 }
 
 .pos-2-2 {
-    grid-area: 2 / 2 / 3 / 3;
+    top: calc(var(--cellSizes) + var(--gridGaps));
+    left: calc(var(--cellSizes) + var(--gridGaps));
 }
 
 .pos-2-3 {
-    grid-area: 2 / 3 / 3 / 4;
+    top: calc(var(--cellSizes) + var(--gridGaps));
+    left: calc((var(--cellSizes) + var(--gridGaps)) * 2);
 }
 
 .pos-2-4 {
-    grid-area: 2 / 4 / 3 / 5;
+    top: calc(var(--cellSizes) + var(--gridGaps));
+    left: calc((var(--cellSizes) + var(--gridGaps)) * 3);
 }
 
 .pos-3-1 {
-    grid-area: 3 / 1 / 4 / 2;
+    top: calc((var(--cellSizes) + var(--gridGaps)) * 2);
+    left: 0;
 }
 
 .pos-3-2 {
-    grid-area: 3 / 2 / 4 / 3;
+    top: calc((var(--cellSizes) + var(--gridGaps)) * 2);
+    left: calc(var(--cellSizes) + var(--gridGaps));
 }
 
 .pos-3-3 {
-    grid-area: 3 / 3 / 4 / 4;
+    top: calc((var(--cellSizes) + var(--gridGaps)) * 2);
+    left: calc((var(--cellSizes) + var(--gridGaps)) * 2);
 }
 
 .pos-3-4 {
-    grid-area: 3 / 4 / 4 / 5;
+    top: calc((var(--cellSizes) + var(--gridGaps)) * 2);
+    left: calc((var(--cellSizes) + var(--gridGaps)) * 3);
 }
 
 .pos-4-1 {
-    grid-area: 4 / 1 / 5 / 2;
+    top: calc((var(--cellSizes) + var(--gridGaps)) * 3);
+    left: 0;
 }
 
 .pos-4-2 {
-    grid-area: 4 / 2 / 5 / 3;
+    top: calc((var(--cellSizes) + var(--gridGaps)) * 3);
+    left: calc(var(--cellSizes) + var(--gridGaps));
 }
 
 .pos-4-3 {
-    grid-area: 4 / 3 / 5 / 4;
+    top: calc((var(--cellSizes) + var(--gridGaps)) * 3);
+    left: calc((var(--cellSizes) + var(--gridGaps)) * 2);
 }
 
 .pos-4-4 {
-    grid-area: 4 / 4 / 5 / 5;
+    top: calc((var(--cellSizes) + var(--gridGaps)) * 3);
+    left: calc((var(--cellSizes) + var(--gridGaps)) * 3);
 }
