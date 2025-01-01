@@ -95,29 +95,6 @@ export function checkMovementDirection(deltaX, deltaY){
     }
 }
 
-// export function canMerge(grid, isToPositive, isAxisHorizontal, cellToMove, targetedCell){
-//     const cellsLineArray = isAxisHorizontal 
-//     ? grid.getGridRow(cellToMove.y) 
-//     : grid.getGridColumn(cellToMove.x) 
-                
-//     console.log(cellsLineArray);
-
-//     const targetIndex = cellsLineArray.indexOf(targetedCell);
-//     const moveIndex = cellsLineArray.indexOf(cellToMove);
-
-//     const cellsBetween = isToPositive
-//     ? cellsLineArray.slice(moveIndex + 1, targetIndex)
-//     : cellsLineArray.slice(targetIndex + 1, moveIndex)
-        
-//     cellsBetween.forEach(cell => {
-//         if(cell.htmlElement){
-//             return false;
-//         }
-//     });
-
-//     return true;
-// }
-
 export function canMerge(grid, isToPositive, isAxisHorizontal, cellToMove, targetedCell) {
     // se il movimento è orizzontale allora viene salvata la riga altrimenti la colonna in cui si trovano le celle target e da muovere
     const cellsLineArray = isAxisHorizontal 
@@ -142,33 +119,25 @@ export function canMerge(grid, isToPositive, isAxisHorizontal, cellToMove, targe
 }
 
 
-export function animateTile(cellToMove, targetedCell) {
-    // Trovo la cella di destinazione
-    let cellToReach = [...document.querySelectorAll('.grid-cell')].find(
-        cell =>
-            parseInt(cell.dataset.x) === targetedCell.x &&
-            parseInt(cell.dataset.y) === targetedCell.y
-    );
+// export function animateTile(cellToMove, targetedCell) {
+//     let cellToReach = [...document.querySelectorAll('.grid-cell')].find(
+//         cell =>
+//             parseInt(cell.dataset.x) === targetedCell.x &&
+//             parseInt(cell.dataset.y) === targetedCell.y
+//     );
 
-    const isHorizontal = cellToMove.y === targetedCell.y ? true : false;
-    const gridRect = document.querySelector('.grid').getBoundingClientRect();
-    const cellToReachRect = cellToReach.getBoundingClientRect();
+//     const gridRect = document.querySelector('.grid').getBoundingClientRect();
+//     const cellToReachRect = cellToReach.getBoundingClientRect();
 
-    cellToMove.htmlElement.style.position = 'absolute';
-    cellToMove.htmlElement.style.transition = 'top 3s ease-in-out, left 0.3s ease-in-out';
+//     cellToMove.htmlElement.style.transition = 'top 0.3s ease-in-out, left 0.3s ease-in-out';
+//     cellToMove.htmlElement.style.top = `${cellToReachRect.top - gridRect.top}px`;
+//     cellToMove.htmlElement.style.left = `${cellToReachRect.left - gridRect.left}px`;
 
-    if(isHorizontal){
-        const deltaLeft = cellToReachRect.left - gridRect.left;
-        cellToMove.htmlElement.style.left = `${deltaLeft}px`;
-    }else{
-        const deltaTop = cellToReachRect.top - gridRect.top;
-        cellToMove.htmlElement.style.top = `${deltaTop}px`;
-    }
-
-    cellToMove.htmlElement.addEventListener('transitionend', () => {
-        cellToMove.htmlElement.style.transition = ''; // Rimuove la transizione
-        cellToMove.htmlElement.style.position = 'relative';
-        cellToMove.htmlElement.style.top = '';
-        cellToMove.htmlElement.style.left = '';
-    }, { once: true }); // L'evento si attiva solo una volta
-}
+//     cellToMove.htmlElement.addEventListener('transitionend', () => {
+//         cellToMove.htmlElement.style.transition = '';
+//         // l'elemento html della cella di riferimento da null assume l'elemento html della tessera da spostare
+//         targetedCell.htmlElement = cellToMove.htmlElement;                
+//         // la cella di partenza viene resettata
+//         cellToMove.resetCell();
+//     })
+// }

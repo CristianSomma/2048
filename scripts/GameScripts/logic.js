@@ -1,5 +1,5 @@
 import Grid from "./Grid.js";
-import { canMerge, createHtmlElement, generateGrid, randomNumber, timer } from "./helpers.js";
+import { animateTile, canMerge, createHtmlElement, generateGrid, randomNumber, timer } from "./helpers.js";
 
 let grid;
 let points = 0; 
