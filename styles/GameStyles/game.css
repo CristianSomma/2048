@@ -81,10 +81,10 @@
 
 .tile {
     position: absolute;
-    /* z-index: 3; */
     width: var(--cellSizes);
     height: var(--cellSizes);
     background-color: yellow;
+    transition: top 0.3s ease-in-out, left 0.3s ease-in-out;
 }
 
 #stats-container, #gameboard, #bonus-container {

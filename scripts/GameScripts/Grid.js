@@ -34,6 +34,18 @@ export default class Grid {
         return occupiedCells;
     }
 
+    getGridRow(number){
+        return this.#grid[number];
+    }
+
+    getGridColumn(number){
+        const gridColumn = []; 
+        this.#grid.forEach(row => {
+            gridColumn.push(row[number]);
+        });
+        return gridColumn;
+    }
+
     updateHtmlGrid(){
         // le celle da aggiornare nel DOM sono quelle occupate e perciò filtro la griglia in un array con sole celle piene
         const cellsToRender = this.getOccupiedCells();

@@ -95,6 +95,53 @@ export function checkMovementDirection(deltaX, deltaY){
     }
 }
 
+// export function canMerge(grid, isToPositive, isAxisHorizontal, cellToMove, targetedCell){
+//     const cellsLineArray = isAxisHorizontal 
+//     ? grid.getGridRow(cellToMove.y) 
+//     : grid.getGridColumn(cellToMove.x) 
+                
+//     console.log(cellsLineArray);
+
+//     const targetIndex = cellsLineArray.indexOf(targetedCell);
+//     const moveIndex = cellsLineArray.indexOf(cellToMove);
+
+//     const cellsBetween = isToPositive
+//     ? cellsLineArray.slice(moveIndex + 1, targetIndex)
+//     : cellsLineArray.slice(targetIndex + 1, moveIndex)
+        
+//     cellsBetween.forEach(cell => {
+//         if(cell.htmlElement){
+//             return false;
+//         }
+//     });
+
+//     return true;
+// }
+
+export function canMerge(grid, isToPositive, isAxisHorizontal, cellToMove, targetedCell) {
+    // se il movimento è orizzontale allora viene salvata la riga altrimenti la colonna in cui si trovano le celle target e da muovere
+    const cellsLineArray = isAxisHorizontal 
+        ? grid.getGridRow(cellToMove.y) 
+        : grid.getGridColumn(cellToMove.x);
+
+    // salvo nelle costanti gli indici della cella destinataria (target) e della cella da muovere
+    const targetIndex = cellsLineArray.indexOf(targetedCell);
+    const moveIndex = cellsLineArray.indexOf(cellToMove);
+
+    // prendo la riga o colonna e salvo un nuovo array contenente le celle tra quella di destinazione e quella da muovere
+    const cellsBetween = isToPositive
+        ? cellsLineArray.slice(moveIndex + 1, targetIndex)
+        : cellsLineArray.slice(targetIndex + 1, moveIndex);
+
+
+    // uso il metodo some per controllare se delle celle soddisfano una condizione, ovvero quella di essere occupata, se ce n'é almeno una occupata ritorna true
+    const hasObstacle = cellsBetween.some(cell => cell.htmlElement);
+
+    // Ritorna false se ci sono ostacoli altrimenti true
+    return !hasObstacle;
+}
+
+
 export function animateTile(cellToMove, targetedCell) {
     // Trovo la cella di destinazione
     let cellToReach = [...document.querySelectorAll('.grid-cell')].find(

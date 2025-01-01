@@ -1,5 +1,5 @@
 import Grid from "./Grid.js";
-import { createHtmlElement, generateGrid, randomNumber, timer } from "./helpers.js";
+import { canMerge, createHtmlElement, generateGrid, randomNumber, timer } from "./helpers.js";
 
 let grid;
 let points = 0; 
@@ -77,15 +77,18 @@ export function moveTiles(direction){
 
             // nel caso in cui la cella di riferimento sia occupata ma ha lo stesso valore di quella da spostare
             if(targetedCell.tileValue === cellToMove.tileValue){
-                // la cella di riferimento duplica il suo valore
-                targetedCell.tileValue *= 2;
-                // aggiungo il valore della cella risultate al punteggio
-                points += targetedCell.tileValue;
-                // aggiorno il DOM del nuovo punteggio
-                updatePoints();
-                // la cella da spostare viene eliminata dal DOM simulando il merging tra le due
-                cellToMove.removeHtmlElement();
-                break;
+                // se la funzione canMerge() ritorna true allora viene effettuata la fusione tra le celle
+                if(canMerge(grid, isToPositive, isAxisHorizontal, cellToMove, targetedCell)){
+                    // la cella di riferimento duplica il suo valore
+                    targetedCell.tileValue *= 2;                    
+                    // aggiungo il valore della cella risultate al punteggio
+                    points += targetedCell.tileValue;
+                    // aggiorno il DOM del nuovo punteggio
+                    updatePoints();
+                    // la cella da spostare viene eliminata dal DOM simulando il merging tra le due
+                    cellToMove.removeHtmlElement();
+                    break;
+                };        
             }
 
             // nel caso in cui la cella di riferimento era occupata allora riduco di 1 la coordinata di riferimento o la aumento di uno in base alla direzione
