@@ -46,9 +46,8 @@ export function timer(timerLenght){
 
 export function createHtmlElement(number) {
     const div = document.createElement('div');
-    div.classList.add('tile');
-    div.classList.add(`tile-${number}`);
     const img = document.createElement('img');
+    div.classList.add('tile');
     img.classList.add('icon-img');
     img.src = `../assets/icons/tilesIcons/${number}.png`;
     div.appendChild(img);

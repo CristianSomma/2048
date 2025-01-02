@@ -11,8 +11,25 @@ export default class Cell {
         this.#element = htmlElement;
         // numero della tessera
         this.#content = value;
-
+        // icona che rappresenta il valore della tessera
         this.#icon = this.#element ? `../assets/icons/tilesIcons/${this.#content}.png` : null;
+    }
+
+    #setTileBackgroundColor(){
+        if(this.#element){
+            let backgroundColor;
+            //rgb(128, 0, 32)
+            //rgb(80, 200, 120)
+            //rgb(111, 162, 227)
+            //rgb(212, 175, 55)
+            //rgb(229, 228, 226)
+            if(this.#content <= 64){
+                backgroundColor = `rgba(111, 162, 227, ${Math.log2(this.#content) / Math.log2(64)})`;
+            }else{
+                backgroundColor = `rgba(212, 175, 55, ${Math.log2(this.#content) / Math.log2(2048)})`;
+            }
+            this.#element.style.setProperty('--tileBackgroundColor', backgroundColor);
+        }
     }
 
     // setter dell'elemento html
@@ -47,7 +64,7 @@ export default class Cell {
         }
         // cambia il valore della tessera nel nuovo valore
         this.#content = newValue;
-        
+        // quando cambia il valore della tessera cambia anche il percorso dell'icona e perciò l'immagine mostrata
         this.#icon = `../assets/icons/tilesIcons/${this.#content}.png`;
         // aggiorna il DOM
         this.updateHtmlElement();
@@ -74,6 +91,8 @@ export default class Cell {
 
     updateHtmlElement(){
         this.#element.querySelector('.icon-img').src = this.#icon;
+        // chiamo una funzione privata per definire il colore di background della tessera
+        this.#setTileBackgroundColor();
         // inserisco nella griglia (#tiles-grid) l'elemento html della cella
         document.getElementById('tiles-grid').appendChild(this.#element);        
         
