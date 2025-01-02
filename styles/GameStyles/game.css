@@ -1,8 +1,8 @@
 :root {
+    --gameboardSize: 380px;
     --cellSizes: 90px;
     --gridGaps: 4px;
 }
-
 
 .transparent {
     background-color: transparent !important;
@@ -41,8 +41,6 @@
 }
 
 .gameboard {
-    --gameboardSize: 380px;
-
     position: absolute;
     top: 29%;
     bottom: 29%;
@@ -85,6 +83,11 @@
     height: var(--cellSizes);
     background-color: yellow;
     transition: top 0.3s ease-in-out, left 0.3s ease-in-out;
+}
+
+.icon-img {
+    width: var(--cellSizes);
+    height: auto;
 }
 
 #stats-container, #gameboard, #bonus-container {

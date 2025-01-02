@@ -27,38 +27,6 @@
     height: 45vh;
 }
 
-/* Risolvere il problema di overflow!!! */
-#animated-layer {
-    position: absolute;
-    top: 0;
-    left: 100%;
-    width: 100vw;
-    height: 100vh;
-    z-index: 9999;
-    background-color: var(--red);
-}
-
-#animated-layer h2 {
-    font-size: 5rem;
-    color: var(--backgroundColor);
-}
-
-.animate {
-    animation-name: translateLayer;
-    animation-duration: 3s;
-    animation-fill-mode: forwards;
-}
-
-@keyframes translateLayer {
-    from {
-        transform: translateX(0);
-    }
-
-    to {
-        transform: translateX(-100%);
-    }
-}
-
 #wave-1 {
     position: absolute;
     top: 55vh;

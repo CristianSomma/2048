@@ -1,15 +1,18 @@
 export default class Cell {
     #element
     #content
+    #icon
 
-    constructor (x, y, htmlElement) {
+    constructor (x, y, value, htmlElement) {
         // coordinate della cella
         this.x = x;
         this.y = y;
         // elemento html contenuto dalla cella
         this.#element = htmlElement;
         // numero della tessera
-        this.#content = this.#element ? this.#element.innerHTML : null;
+        this.#content = value;
+
+        this.#icon = this.#element ? `../assets/icons/tilesIcons/${this.#content}.png` : null;
     }
 
     // setter dell'elemento html
@@ -25,8 +28,6 @@ export default class Cell {
         }
         // cambia il valore dell'elemento html al nuovo valore
         this.#element = newValue;
-        // sincronizza il numero della tessera al valore nell'elemento html
-        this.#content = parseInt(this.#element.innerHTML);
         // aggiorna il DOM
         this.updateHtmlElement();
     }
@@ -46,8 +47,8 @@ export default class Cell {
         }
         // cambia il valore della tessera nel nuovo valore
         this.#content = newValue;
-        // sincronizza il contenuto dell'elemento html al nuovo valore
-        this.#element.innerHTML = this.#content;
+        
+        this.#icon = `../assets/icons/tilesIcons/${this.#content}.png`;
         // aggiorna il DOM
         this.updateHtmlElement();
     }
@@ -72,9 +73,10 @@ export default class Cell {
     }
 
     updateHtmlElement(){
+        this.#element.querySelector('.icon-img').src = this.#icon;
         // inserisco nella griglia (#tiles-grid) l'elemento html della cella
         document.getElementById('tiles-grid').appendChild(this.#element);        
-     
+        
         // prendo la lista delle classi dell'elemento html della cella e lo rendo un array con l'operatore ... per poi poter utilizzare i metodi dell'array
         [...this.#element.classList]
         .filter(htmlClass => htmlClass.startsWith('pos-')) // filtro le classi mantenendo solo quelle che iniziano con "pos-" che quindi indicano la posizione della cella

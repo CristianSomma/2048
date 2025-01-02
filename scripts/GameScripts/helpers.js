@@ -47,7 +47,11 @@ export function timer(timerLenght){
 export function createHtmlElement(number) {
     const div = document.createElement('div');
     div.classList.add('tile');
-    div.innerHTML = number;
+    div.classList.add(`tile-${number}`);
+    const img = document.createElement('img');
+    img.classList.add('icon-img');
+    img.src = `../assets/icons/tilesIcons/${number}.png`;
+    div.appendChild(img);
     return div;
 }
 
@@ -64,7 +68,7 @@ export function generateGrid() {
         const gridRow = [];
         for (let x = 0; x < 4; x++) {
             // inserisco un'istanza dell'oggetto cell, con le coordinate rispettive e l'elemento html con valore null
-            gridRow.push(new Cell(x, y, null));
+            gridRow.push(new Cell(x, y, null, null));
         }
         grid.push(gridRow);
     }
@@ -118,26 +122,47 @@ export function canMerge(grid, isToPositive, isAxisHorizontal, cellToMove, targe
     return !hasObstacle;
 }
 
-
-// export function animateTile(cellToMove, targetedCell) {
-//     let cellToReach = [...document.querySelectorAll('.grid-cell')].find(
+// export function animateTile(cellToMove, targetedCell, callback) {
+//     const cellToReach = [...document.querySelectorAll('.grid-cell')].find(
 //         cell =>
 //             parseInt(cell.dataset.x) === targetedCell.x &&
 //             parseInt(cell.dataset.y) === targetedCell.y
 //     );
 
+//     if (!cellToReach) {
+//         console.error("Target cell not found");
+//         return;
+//     }
+
 //     const gridRect = document.querySelector('.grid').getBoundingClientRect();
 //     const cellToReachRect = cellToReach.getBoundingClientRect();
+//     const tileElement = cellToMove.htmlElement;
 
-//     cellToMove.htmlElement.style.transition = 'top 0.3s ease-in-out, left 0.3s ease-in-out';
-//     cellToMove.htmlElement.style.top = `${cellToReachRect.top - gridRect.top}px`;
-//     cellToMove.htmlElement.style.left = `${cellToReachRect.left - gridRect.left}px`;
+//     if (!tileElement) {
+//         console.error("Tile element not found");
+//         return;
+//     }
 
-//     cellToMove.htmlElement.addEventListener('transitionend', () => {
-//         cellToMove.htmlElement.style.transition = '';
-//         // l'elemento html della cella di riferimento da null assume l'elemento html della tessera da spostare
-//         targetedCell.htmlElement = cellToMove.htmlElement;                
-//         // la cella di partenza viene resettata
-//         cellToMove.resetCell();
-//     })
+//     // Calcola lo spostamento relativo
+//     const deltaX = cellToReachRect.left - tileElement.getBoundingClientRect().left;
+//     const deltaY = cellToReachRect.top - tileElement.getBoundingClientRect().top;
+
+//     // Applica transizione
+//     tileElement.style.transition = 'transform 0.5s ease-in-out';
+//     tileElement.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+
+//     // Una volta terminata l'animazione
+//     const executeTransitionEnd = () => {
+//         // Resetta la transizione e la posizione
+//         tileElement.style.transition = '';
+//         tileElement.style.transform = '';
+
+//         tileElement.removeEventListener('transitionend', executeTransitionEnd);
+
+//         if (callback) {
+//             callback();
+//         }
+//     };
+
+//     tileElement.addEventListener('transitionend', executeTransitionEnd);
 // }
