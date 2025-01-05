@@ -42,6 +42,14 @@ html, body {
     background-color: var(--backgroundColor);
 }
 
+.desktop {
+    display: none;
+
+    @media only screen and (min-width: 1000px) {
+        display: flex;
+    }
+}
+
 .btn {
     font-family: MarcellusSC;
     cursor: pointer;

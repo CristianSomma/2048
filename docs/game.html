@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="../styles/style.css">
     <link rel="stylesheet" href="../styles/GameStyles/game.css">
     <!-- Uso il module poiché importo funzioni e oggetti da altri file-->
+    <script type="module" src="../scripts/GameScripts/DOMloaded.js"></script>
     <script type="module" src="../scripts/GameScripts/logic.js"></script>
     <script type="module" src="../scripts/GameScripts/inputs.js"></script>
     <meta charset="UTF-8">
@@ -13,45 +14,51 @@
 </head>
 <body>
     <div class="flex-column" id="main-container">
-        <section>
-            <div class="flex-row" id="stats-container">
-                <div class="flex-column stats-box">
-                    <img src="../assets/icons/RecordIcon.png" alt="Record icon">
-                    <p id="points-number">0</p>
+        <main class="flex-column">
+            <section>
+                <div class="flex-row" id="stats-container">
+                    <div class="flex-row stats-desk-container">
+                        <div class="flex-column stats-box">
+                            <img src="../assets/icons/RecordIcon.png" alt="Record icon">
+                            <p id="points-number">0</p>
+                        </div>
+                    </div>
+                    <div class="flex-row stats-desk-container">
+                        <div class="flex-column stats-box" id="timer">
+                            <img src="../assets/icons/AlarmIcon.png" alt="Timer icon">
+                            <p id="timer-number">00:00:00</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="flex-column stats-box" id="timer">
-                    <img src="../assets/icons/AlarmIcon.png" alt="Timer icon">
-                    <p id="timer-number">00:00:00</p>
+            </section>
+            <section class="flex-row xy-centered">
+                <div class="gameboard">
+                    <div class="grid">
+                        <div class="grid-cell" data-x="0" data-y="0" style="border-top-left-radius: 1.5rem;"></div>
+                        <div class="grid-cell" data-x="1" data-y="0"></div>
+                        <div class="grid-cell" data-x="2" data-y="0"></div>
+                        <div class="grid-cell" data-x="3" data-y="0" style="border-top-right-radius: 1.5rem;"></div>
+                        <div class="grid-cell" data-x="0" data-y="1"></div>
+                        <div class="grid-cell" data-x="1" data-y="1"></div>
+                        <div class="grid-cell" data-x="2" data-y="1"></div>
+                        <div class="grid-cell" data-x="3" data-y="1"></div>
+                        <div class="grid-cell" data-x="0" data-y="2"></div>
+                        <div class="grid-cell" data-x="1" data-y="2"></div>
+                        <div class="grid-cell" data-x="2" data-y="2"></div>
+                        <div class="grid-cell" data-x="3" data-y="2"></div>
+                        <div class="grid-cell" data-x="0" data-y="3" style="border-bottom-left-radius: 1.5rem;"></div>
+                        <div class="grid-cell" data-x="1" data-y="3"></div>
+                        <div class="grid-cell" data-x="2" data-y="3"></div>
+                        <div class="grid-cell" data-x="3" data-y="3" style="border-bottom-right-radius: 1.5rem;"></div>
+                    </div>  
                 </div>
-            </div>
-        </section>
-        <main class="flex-row xy-centered">
-            <div class="gameboard">
-                <div class="grid">
-                    <div class="grid-cell" data-x="0" data-y="0" style="border-top-left-radius: 1.5rem;"></div>
-                    <div class="grid-cell" data-x="1" data-y="0"></div>
-                    <div class="grid-cell" data-x="2" data-y="0"></div>
-                    <div class="grid-cell" data-x="3" data-y="0" style="border-top-right-radius: 1.5rem;"></div>
-                    <div class="grid-cell" data-x="0" data-y="1"></div>
-                    <div class="grid-cell" data-x="1" data-y="1"></div>
-                    <div class="grid-cell" data-x="2" data-y="1"></div>
-                    <div class="grid-cell" data-x="3" data-y="1"></div>
-                    <div class="grid-cell" data-x="0" data-y="2"></div>
-                    <div class="grid-cell" data-x="1" data-y="2"></div>
-                    <div class="grid-cell" data-x="2" data-y="2"></div>
-                    <div class="grid-cell" data-x="3" data-y="2"></div>
-                    <div class="grid-cell" data-x="0" data-y="3" style="border-bottom-left-radius: 1.5rem;"></div>
-                    <div class="grid-cell" data-x="1" data-y="3"></div>
-                    <div class="grid-cell" data-x="2" data-y="3"></div>
-                    <div class="grid-cell" data-x="3" data-y="3" style="border-bottom-right-radius: 1.5rem;"></div>
-                </div>  
-            </div>
-            <div class="gameboard transparent">
-                <div class="grid" id="tiles-grid">
+                <div class="gameboard transparent" id="gameboard-tp">
+                    <div class="grid" id="tiles-grid">
+                    </div>
                 </div>
-            </div>
+            </section>
         </main>
-        <section>
+        <section id="bonus-section">
             <div class="flex-row" id="bonus-container">
                 <button class="bonus-btn" id="bonus-1">
                     <img class="bonus-btn-img" src="../assets/icons/bin.png">
