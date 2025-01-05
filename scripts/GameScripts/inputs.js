@@ -1,5 +1,5 @@
-import { checkMovementDirection } from "./helpers.js";
-import { moveTiles, orderTiles } from "./logic.js"
+import { checkMovementDirection, isDisabled } from "./helpers.js";
+import { deleteSmallTiles, generate1024Tile, moveTiles, orderTiles } from "./logic.js"
 
 let startCoordinateX, startCoordinateY;
 
@@ -50,10 +50,27 @@ document.addEventListener('keydown', evt => {
             moveTiles('down');
         break;
     }
+
+    if(evt.key === "1" && !isDisabled('bonus-1')){
+        deleteSmallTiles();
+    }else if(evt.key === "2" && !isDisabled('main-bonus')){
+        generate1024Tile();
+    }else if(evt.key === "3" && !isDisabled('bonus-3')){
+        orderTiles();
+    }
 })
 
-document.getElementById('bonus-1').onclick = () => {
+document.getElementById('bonus-3').onclick = () => {
     orderTiles();
-    document.getElementById('bonus-1').disabled = true;
+    document.getElementById('bonus-3').disabled = true;
 }
 
+document.getElementById('main-bonus').onclick = () => {
+    generate1024Tile();
+    document.getElementById('main-bonus').disabled = true;
+}
+
+document.getElementById('bonus-1').onclick = () => {
+    deleteSmallTiles();
+    document.getElementById('bonus-1').disabled = true;
+}

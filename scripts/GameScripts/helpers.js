@@ -127,3 +127,8 @@ export function canMerge(grid, isToPositive, isAxisHorizontal, cellToMove, targe
     // Ritorna false se ci sono ostacoli altrimenti true
     return !hasObstacle;
 }
+
+export function isDisabled(btnId){
+    console.log(document.getElementById(btnId).disabled)
+    return document.getElementById(btnId).disabled;
+}

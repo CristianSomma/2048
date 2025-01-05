@@ -120,6 +120,24 @@ export function moveTiles(direction){
 
 }
 
+// bonus 3
+export function deleteSmallTiles(){
+    // uso il metodo dell'oggetto Grid per ottenere un array piatto di sole celle occupate
+    const smallTilesArray = grid
+    .getOccupiedCells()
+    // tengo nell'array solo le celle di valore 2 o 4 filtrandolo
+    .filter(cell => cell.tileValue === 2 || cell.tileValue === 4)
+    // con il metodo map() eseguo una stessa funzione su ogni elemento dell'array, ovvero tramite il metodo dell'oggetto Cell rimuovo cancello completamente dal DOM gli elementi html 
+    .map(cell => cell.removeHtmlElement());
+}
+
+export function generate1024Tile(){
+    const occupiedCells = grid.getOccupiedCells()
+
+    occupiedCells[Math.floor(Math.random() * occupiedCells.length)].tileValue = 1024;
+}
+
+// bonus 1
 export function orderTiles(){
     // creo un array che conterrà le celle occupate in ordine di valore
     const cellsValue = grid
