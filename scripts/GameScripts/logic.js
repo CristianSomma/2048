@@ -23,10 +23,20 @@ function spawnNewTile(){
     //     console.log('error');
     //     return;
     // }
-    // crea un elemento html con numero casuale (2 o 4) e lo assegna alla proprietà #element tramite setter
+    
+    // salvo nella costante un numero randomico, 2 o 4.  
     const randomNum = randomNumber();
-    randomCell.htmlElement = createHtmlElement(randomNum);    
+    // chiamo un metodo della cella appositamente creata per aggiornare l'elemento html senza usare il setter che non permette due parametri
+    // aggiorno l'elemento html e aggiungo la classe .newTile per effettuare l'animazione di spawn 
+    randomCell.setHtmlAndClass(createHtmlElement(randomNum), 'newTile');
+    // set del valore numerico della cella a randomNum
     randomCell.tileValue = randomNum;
+    // aggiorno il DOM manualmente poiché setHtmlAndCss non lo fa.
+    randomCell.updateHtmlElement();
+    // dopo 300ms viene rimossa la classe che esegue l'animazione così che non venga più effettuata
+    setTimeout(() => {
+        randomCell.htmlElement.classList.remove('newTile')
+    }, 300);
 }
 
 export function moveTiles(direction){

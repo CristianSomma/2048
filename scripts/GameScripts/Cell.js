@@ -1,12 +1,15 @@
 export default class Cell {
+    // dichiaro localmente le variabili private
+    #x
+    #y
     #element
     #content
     #icon
 
     constructor (x, y, value, htmlElement) {
         // coordinate della cella
-        this.x = x;
-        this.y = y;
+        this.#x = x;
+        this.#y = y;
         // elemento html contenuto dalla cella
         this.#element = htmlElement;
         // numero della tessera
@@ -15,21 +18,37 @@ export default class Cell {
         this.#icon = this.#element ? `../assets/icons/tilesIcons/${this.#content}.png` : null;
     }
 
-    #setTileBackgroundColor(){
-        if(this.#element){
-            let backgroundColor;
-            //rgb(128, 0, 32)
-            //rgb(80, 200, 120)
-            //rgb(111, 162, 227)
-            //rgb(212, 175, 55)
-            //rgb(229, 228, 226)
-            if(this.#content <= 64){
-                backgroundColor = `rgba(111, 162, 227, ${Math.log2(this.#content) / Math.log2(64)})`;
-            }else{
-                backgroundColor = `rgba(212, 175, 55, ${Math.log2(this.#content) / Math.log2(2048)})`;
-            }
-            this.#element.style.setProperty('--tileBackgroundColor', backgroundColor);
+    // setter della coordinata x
+    set x(newValue){
+        // se x non è nel range da zero a tre ritorna un errore nella console
+        if(newValue<0 || newValue>3){
+            throw new Error('The cell coordinates must be between zero and three.');
         }
+        // assegna ad x il nuovo valore 
+        this.#x = newValue;
+        // aggiorna il DOM per sincronizzare le coordinate dell'oggetto a quelle dell'elemento html
+        this.updateHtmlElement();
+    }
+
+    // getter della coodinata x
+    get x(){
+        return this.#x;
+    }
+
+    // setter della coordinata y
+    set y(newValue){
+        if(newValue<0 || newValue>3){
+            throw new Error('The cell coordinates must be between zero and three.');
+        }
+        // assegna ad #y il nuovo valore
+        this.#y = newValue;
+        // aggiorna il DOM
+        this.updateHtmlElement();
+    }
+
+    // getter della coordinata y
+    get y(){
+        return this.#y;
     }
 
     // setter dell'elemento html
@@ -39,10 +58,11 @@ export default class Cell {
             // l'elemento precedente viene cancellato per evitare la presenza di due div sovrapposti
             this.removeHtmlElement();
         }
-        
+
         if(newValue == null){
             throw new Error("To set the html element to null use the Cell.resetCell().")
         }
+
         // cambia il valore dell'elemento html al nuovo valore
         this.#element = newValue;
         // aggiorna il DOM
@@ -89,22 +109,70 @@ export default class Cell {
         this.#content = null;
     }
 
+    // funzione che permette di settare l'elemento html ed aggiungere una classe css all'elemento html senza aggiornare il DOM
+    setHtmlAndClass(newValue, newClass){
+        // se l'elemento html già esisteva e deve essere sovrascritto
+        if(this.#element){
+            // l'elemento precedente viene cancellato per evitare la presenza di due div sovrapposti
+            this.removeHtmlElement();
+        }
+
+        // se i parametri sono null ritorna un errore nella console
+        if(newValue === null || newClass === null){
+            throw new Error('Both the arguments must have a valid value.')
+        }
+
+        // assegna alla proprietà contenente l'elemento html il nuovo valore
+        this.#element = newValue;
+
+        // aggiunge la classe all'elemento html
+        this.#element.classList.add(newClass);
+    }
+
+    #setTileBackgroundColor(){
+        // se l'elemento html esiste...
+        if(this.#element){
+            let alpha;
+            
+            // prendo la lista delle classi e le rendo un array tramite l'operatore ...
+            [...this.#element.classList]
+            // filtro le classi mantenendo solo quelle che equivalgono a 'gold' o 'blue'
+            .filter(htmlClass => htmlClass === "gold" || htmlClass === "blue") // filtro le classi mantenendo solo quelle che iniziano con "pos-" che quindi indicano la posizione della cella
+            // per tutte le classi che soddisfano la condizione
+            .forEach(htmlClass => {
+                // viene eliminata la classe, rimuovendo perciò il comando css che determinava il colore di background
+                this.#element.classList.remove(htmlClass);
+            })
+
+            // se il valore della tessera è minore o uguale a 64
+            if(this.#content <= 64){
+                // viene assegnata alla tessera la classe blue, che definisce il colore di background a blu
+                this.#element.classList.add('blue');
+                // definisco il valore alpha del colore con il seguente calcolo (il calcolo da eseguire l'ho chiesto a ChatGPT) 
+                alpha = Math.log2(this.#content) / Math.log2(64);
+            }else{
+                // per tutte le tessere con valore maggiore di 64
+                // viene assegnata alla tessera la classe gold, che definisce il colore di background a oro
+                this.#element.classList.add('gold');
+                // definisco il valore alpha del colore con il seguente calcolo
+                alpha = Math.log2(this.#content) / Math.log2(2048);
+            }
+            // definisco la variabile --backgroundColorAlpha al valore di alpha
+            this.#element.style.setProperty('--backgroundColorAlpha', alpha);
+        }
+    }
+
     updateHtmlElement(){
+        // assegno all'attributo source dell'immagine con classe .icon-img il valore di #icon
         this.#element.querySelector('.icon-img').src = this.#icon;
         // chiamo una funzione privata per definire il colore di background della tessera
         this.#setTileBackgroundColor();
+
+        // assegno alle variabili css --x e --y il valore di #x e #y per definire la posizione della tessera
+        this.#element.style.setProperty('--x', this.#x);
+        this.#element.style.setProperty('--y', this.#y);
+
         // inserisco nella griglia (#tiles-grid) l'elemento html della cella
         document.getElementById('tiles-grid').appendChild(this.#element);        
-        
-        // prendo la lista delle classi dell'elemento html della cella e lo rendo un array con l'operatore ... per poi poter utilizzare i metodi dell'array
-        [...this.#element.classList]
-        .filter(htmlClass => htmlClass.startsWith('pos-')) // filtro le classi mantenendo solo quelle che iniziano con "pos-" che quindi indicano la posizione della cella
-        .forEach(htmlClass => {
-            // ogni cella che inizia con "pos-" viene rimossa
-            this.#element.classList.remove(htmlClass);
-        })
-
-        // aggiungo una nuova classe con la posizione della cella
-        this.#element.classList.add(`pos-${this.y+1}-${this.x+1}`)    
     }
 }

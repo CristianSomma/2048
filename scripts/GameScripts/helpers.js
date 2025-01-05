@@ -44,17 +44,24 @@ export function timer(timerLenght){
     }, 1000)
 }
 
+// funzione per creare l'elemento html della tessera
 export function createHtmlElement(number) {
+    // creazione degli elementi html
     const div = document.createElement('div');
     const img = document.createElement('img');
+    // assegnazione delle classi per gli stili
     div.classList.add('tile');
     img.classList.add('icon-img');
+    // assegnazione all'attributo source del percorso dell'immagine da mostrare 
     img.src = `../assets/icons/tilesIcons/${number}.png`;
+    // inserisco nell'elemento div l'elemento html img
     div.appendChild(img);
+    // ritorno l'elemento html
     return div;
 }
 
 export function randomNumber(){
+    // ritorno un valore randomico che sia 2 (75% di probabilità) o 4
     return (
         Math.random() < 0.75 ? 2 : 4
     )
@@ -120,48 +127,3 @@ export function canMerge(grid, isToPositive, isAxisHorizontal, cellToMove, targe
     // Ritorna false se ci sono ostacoli altrimenti true
     return !hasObstacle;
 }
-
-// export function animateTile(cellToMove, targetedCell, callback) {
-//     const cellToReach = [...document.querySelectorAll('.grid-cell')].find(
-//         cell =>
-//             parseInt(cell.dataset.x) === targetedCell.x &&
-//             parseInt(cell.dataset.y) === targetedCell.y
-//     );
-
-//     if (!cellToReach) {
-//         console.error("Target cell not found");
-//         return;
-//     }
-
-//     const gridRect = document.querySelector('.grid').getBoundingClientRect();
-//     const cellToReachRect = cellToReach.getBoundingClientRect();
-//     const tileElement = cellToMove.htmlElement;
-
-//     if (!tileElement) {
-//         console.error("Tile element not found");
-//         return;
-//     }
-
-//     // Calcola lo spostamento relativo
-//     const deltaX = cellToReachRect.left - tileElement.getBoundingClientRect().left;
-//     const deltaY = cellToReachRect.top - tileElement.getBoundingClientRect().top;
-
-//     // Applica transizione
-//     tileElement.style.transition = 'transform 0.5s ease-in-out';
-//     tileElement.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
-
-//     // Una volta terminata l'animazione
-//     const executeTransitionEnd = () => {
-//         // Resetta la transizione e la posizione
-//         tileElement.style.transition = '';
-//         tileElement.style.transform = '';
-
-//         tileElement.removeEventListener('transitionend', executeTransitionEnd);
-
-//         if (callback) {
-//             callback();
-//         }
-//     };
-
-//     tileElement.addEventListener('transitionend', executeTransitionEnd);
-// }

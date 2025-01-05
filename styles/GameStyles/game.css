@@ -81,13 +81,37 @@
     position: absolute;
     width: var(--cellSizes);
     height: var(--cellSizes);
-    background-color: var(--tileBackgroundColor);
-    transition: top 0.3s ease-in-out, left 0.3s ease-in-out;
+    top: calc((var(--cellSizes) + var(--gridGaps)) * var(--y));
+    left: calc((var(--cellSizes) + var(--gridGaps)) * var(--x));
+}
+
+.newTile {
+    animation: spawn 0.3s ease-in-out;
 }
 
 .icon-img {
     width: var(--cellSizes);
     height: auto;
+}
+
+.blue {
+    background-color: rgba(111, 162, 227, var(--backgroundColorAlpha));
+}
+
+.gold {
+    background-color: rgba(212, 175, 55, var(--backgroundColorAlpha));
+}
+
+@keyframes spawn {
+    0% {
+        opacity: 0.3;
+        transform: scale(0);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 #stats-container, #gameboard, #bonus-container {
