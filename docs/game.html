@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="../styles/palette.css">
     <link rel="stylesheet" href="../styles/style.css">
     <link rel="stylesheet" href="../styles/GameStyles/game.css">
-    <!-- Uso il module poiché importo il constructor di Tile -->
+    <!-- Uso il module poiché importo funzioni e oggetti da altri file-->
     <script type="module" src="../scripts/GameScripts/logic.js"></script>
     <script type="module" src="../scripts/GameScripts/inputs.js"></script>
     <meta charset="UTF-8">
@@ -53,9 +53,15 @@
         </main>
         <section>
             <div class="flex-row" id="bonus-container">
-                <button class="bonus-btn">1</button>
-                <button class="bonus-btn">2</button>
-                <button class="bonus-btn">3</button>
+                <button class="bonus-btn" id="bonus-1">
+                    <img class="bonus-btn-img" src="../assets/icons/bin.png">
+                </button>
+                <button class="bonus-btn" id="main-bonus">
+                    <img class="bonus-btn-img" src="../assets/icons/star.png">
+                </button>
+                <button class="bonus-btn" id="bonus-3">
+                    <img class="bonus-btn-img" src="../assets/icons/pin.png">
+                </button>
             </div>
         </section>
     </div>

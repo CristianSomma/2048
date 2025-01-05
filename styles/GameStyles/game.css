@@ -47,7 +47,7 @@
     z-index: 2;
     width: var(--gameboardSize); 
     height: var(--gameboardSize);
-    border: 4px solid var(--red);
+    border: var(--gridGaps) solid var(--red);
     border-radius: 1.5rem;
     background-color: var(--red);
 }
@@ -58,8 +58,8 @@
     display: grid;
     grid-template-columns: repeat(4, 90px);
     grid-template-rows: repeat(4, 90px);
-    row-gap: 4px;
-    column-gap: 4px;
+    row-gap: var(--gridGaps);
+    column-gap: var(--gridGaps);
 }
 
 #tiles-grid {
@@ -140,4 +140,9 @@
     background-color: var(--red);
     background-image: radial-gradient(at 10% 10%, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
     box-shadow: 3px 38px 50px rgba(0, 0, 0, 0.6);
+}
+
+.bonus-btn-img {
+    width: 100%;
+    height: auto;
 }

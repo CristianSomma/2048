@@ -30,7 +30,7 @@ export default class Grid {
 
     // funzione che ritorna un array con solo le celle occupate filtrando l'intera griglia
     getOccupiedCells(){
-        const occupiedCells = this.#grid.flat().filter(cell => cell.htmlElement)
+        const occupiedCells = this.#grid.flat().filter(cell => cell && cell.htmlElement);
         return occupiedCells;
     }
 

@@ -1,3 +1,4 @@
+import Cell from "./Cell.js";
 import Grid from "./Grid.js";
 import { canMerge, createHtmlElement, generateGrid, randomNumber, timer } from "./helpers.js";
 
@@ -23,7 +24,7 @@ function spawnNewTile(){
     //     console.log('error');
     //     return;
     // }
-    
+
     // salvo nella costante un numero randomico, 2 o 4.  
     const randomNum = randomNumber();
     // chiamo un metodo della cella appositamente creata per aggiornare l'elemento html senza usare il setter che non permette due parametri
@@ -35,7 +36,9 @@ function spawnNewTile(){
     randomCell.updateHtmlElement();
     // dopo 300ms viene rimossa la classe che esegue l'animazione così che non venga più effettuata
     setTimeout(() => {
-        randomCell.htmlElement.classList.remove('newTile')
+        if(randomCell.htmlElement){
+            randomCell.htmlElement.classList.remove('newTile')
+        }
     }, 300);
 }
 
@@ -117,3 +120,49 @@ export function moveTiles(direction){
 
 }
 
+export function orderTiles(){
+    // creo un array che conterrà le celle occupate in ordine di valore
+    const cellsValue = grid
+    // uso il metodo della griglia per ottenere un array piatto di celle occupate
+    .getOccupiedCells()
+    // prendo il valore di ogni cella e lo sottraggo ad un'altro, in base al risultato viene ordinato l'array in ordine decrescente 
+    .sort((a, b) => {
+        return b.tileValue - a.tileValue
+    });
+
+    // sovrascrivo l'array bidimensionale iniziale con uno nuovo e vuoto
+    grid.gridArray = generateGrid();
+
+    /*
+        PERCHE' LA GRIGLIA VIENE SVUOTATA?
+        Svuotando la griglia evito che l'array contenente le celle da riordinare venga "corrotto".
+        Questo succede perché l'array contiene sì le celle, ma queste però mantengono un riferimento e possono
+        quindi cambiare valore se le proprietà vengono ridefinite al dì fuori dell'array.
+        Perciò se le celle di riferimento, quelle in alto a sinistra, che verranno poi occupate per la riordinazione
+        contengono già qualcosa questo viene sovrascritto e perso nel processo.
+        Per evitare ciò svuoto completamente la griglia e riposiziono le tessere da ordinare, così che nessuna sovrascrizione venga effettuata.
+    */
+
+    let i = 0;
+    for(let y=0; y<4; y++){
+        for(let x=0; x<4; x++){
+            // cella di riferimento da occupare
+            const targetedCell = grid.gridArray[y][x]; 
+            // se i, l'iteratore dell'array cellsValue è minore della lunghezza dell'array...
+            if(i < cellsValue.length){
+                // la cella di riferimento assume il valore della cella da riordinare
+                targetedCell.htmlElement = cellsValue[i].htmlElement;
+                targetedCell.tileValue = cellsValue[i].tileValue;
+                // incremento il contatore
+                i++;
+            }else {
+                // se l'iteratore ha superato la lunghezza dell'array quelle celle vengono resettate
+                targetedCell.resetCell();
+            }
+            
+        }
+    }
+
+    // la griglia viene sincronizzata nel DOM per sicurezza
+    grid.updateHtmlGrid();
+}

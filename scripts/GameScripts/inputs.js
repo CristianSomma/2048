@@ -1,5 +1,5 @@
 import { checkMovementDirection } from "./helpers.js";
-import { moveTiles } from "./logic.js"
+import { moveTiles, orderTiles } from "./logic.js"
 
 let startCoordinateX, startCoordinateY;
 
@@ -51,4 +51,9 @@ document.addEventListener('keydown', evt => {
         break;
     }
 })
+
+document.getElementById('bonus-1').onclick = () => {
+    orderTiles();
+    document.getElementById('bonus-1').disabled = true;
+}
 

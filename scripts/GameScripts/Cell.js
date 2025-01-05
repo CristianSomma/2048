@@ -107,6 +107,7 @@ export default class Cell {
         // reset delle proprietà a null, ovvero vuoto
         this.#element = null;
         this.#content = null;
+        this.#icon = null;
     }
 
     // funzione che permette di settare l'elemento html ed aggiungere una classe css all'elemento html senza aggiornare il DOM
