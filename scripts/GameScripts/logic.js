@@ -1,30 +1,35 @@
 import Cell from "./Cell.js";
 import Grid from "./Grid.js";
-import { canMerge, createHtmlElement, generateGrid, randomNumber, timer } from "./helpers.js";
+import { canMerge, createHtmlElement, gameOver, generateGrid, randomNumber } from "./helpers.js";
+import Timer from "./timer.js";
 
-let grid;
+let grid, timer;
 let points = 0; 
 
 document.addEventListener('DOMContentLoaded', () => {
+    // creo l'istanza pricipale della griglia
     grid = new Grid(generateGrid());
-    console.log(grid.gridArray);
+    // spawn di due tessere per iniziare
     spawnNewTile();
     spawnNewTile();
-    timer(120);
+    // creo un'istanza del timer
+    timer = new Timer();
+    // faccio partire il timer di 20 secondi
+    timer.start(20);
 });
 
 function updatePoints(){
     document.getElementById('points-number').innerHTML = points;
 }
 
-function spawnNewTile(){
+async function spawnNewTile(){
     // costante contenente una cella casuale vuota
     const randomCell = grid.getRandomCell();
-    // if(!randomCell){
-    //     console.log('error');
-    //     return;
-    // }
-
+    if(!randomCell){
+        // se non ci sono più celle libere, quindi se ritorna null chiamo la funzione di gameover
+        gameOver('There is no more room for new tiles...')
+        return;
+    }
     // salvo nella costante un numero randomico, 2 o 4.  
     const randomNum = randomNumber();
     // chiamo un metodo della cella appositamente creata per aggiornare l'elemento html senza usare il setter che non permette due parametri
@@ -34,7 +39,7 @@ function spawnNewTile(){
     randomCell.tileValue = randomNum;
     // aggiorno il DOM manualmente poiché setHtmlAndCss non lo fa.
     randomCell.updateHtmlElement();
-    // dopo 300ms viene rimossa la classe che esegue l'animazione così che non venga più effettuata
+    // dopo 300ms viene rimossa la classe che esegue l'animazione così che non venga più effettuata    
     setTimeout(() => {
         if(randomCell.htmlElement){
             randomCell.htmlElement.classList.remove('newTile')
@@ -115,9 +120,12 @@ export function moveTiles(direction){
 
     // aggiorno la griglia html
     grid.updateHtmlGrid();
+    // rimuovo il timer per il movimento dato che è stato effettuato
+    timer.stop();
+    // aggiungo un nuovo timer per il prossimo movimento
+    timer.start(10);
     // se viene eseguito un movimento significa che è stato terminato un round e quindi compare una nuova tessera
     spawnNewTile();    
-
 }
 
 // bonus 3

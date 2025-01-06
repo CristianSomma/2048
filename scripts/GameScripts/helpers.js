@@ -1,49 +1,6 @@
 import Cell from "./Cell.js";
 import { moveTiles } from "./logic.js";
 
-export function timer(timerLenght){
-    // calcolo dei minuti
-    let minutesLeft = Math.floor(timerLenght / 60);
-    // calcolo dei secondi
-    let secondsLeft = timerLenght - (minutesLeft * 60);
-
-    let interval = setInterval(() => {
-        let minutes = minutesLeft;
-        let seconds = secondsLeft;
-        
-        // se i minuti e i secondi sono entrambi zero
-        if(minutesLeft === 0 && secondsLeft === 0){
-            console.log('end');
-            // ferma l'esecuzione del setInterval
-            clearInterval(interval);
-            // ritorna la funzione
-            return;
-        }
-
-        // se i secondi sono zero e i minuti no...
-        if(secondsLeft === 0 && minutesLeft>0){
-            // si toglie un minuto e si resetta i secondi a 59
-            minutesLeft--;
-            secondsLeft = 59;
-        }else{
-            // altrimenti avviene la normale esecuzione con la riduzione di un secondo alla volta
-            secondsLeft--;
-        }
-
-        // se i secondi o i minuti sono meno di 10, quindi a singola cifra per estetica si aggiunge uno zero di fronte
-        if(secondsLeft<10){
-            seconds = `0${secondsLeft}`;
-        }
-
-        if(minutesLeft<10){
-            minutes = `0${minutesLeft}`; 
-        }
-
-        // interpolazione e "rendering"
-        document.getElementById('timer-number').innerHTML = `${minutes}:${seconds}`
-    }, 1000)
-}
-
 // funzione per creare l'elemento html della tessera
 export function createHtmlElement(number) {
     // creazione degli elementi html
@@ -129,6 +86,57 @@ export function canMerge(grid, isToPositive, isAxisHorizontal, cellToMove, targe
 }
 
 export function isDisabled(btnId){
-    console.log(document.getElementById(btnId).disabled)
     return document.getElementById(btnId).disabled;
+}
+
+export function reset(){
+    // ricaricamento della pagina html
+    document.location.reload();
+}
+
+function popUp(titleText, message){
+    // div contenitore
+    const container = document.createElement('div');
+    container.classList.add('overlay');
+    
+    // div contenente tutti i componenti
+    const innerContainer = document.createElement('div');
+    innerContainer.classList.add('message-alert');
+    
+    // creo l'elemento h2, titolo del messaggio
+    const title = document.createElement('h2');
+    title.textContent = titleText;
+    
+    // creo elemento html p con relativo testo passato come parametro della funzione
+    const text = document.createElement('p');
+    text.textContent = message;
+    
+    // creo l'elemento html button
+    const btn = document.createElement('button');
+    // testo del bottone
+    btn.textContent = 'Play Again';
+    // aggiungo delle classi di stile del bottone
+    btn.classList.add('btn');
+    btn.classList.add('primary');
+    // aggiungo l'id per ulteriori stili specifici 
+    btn.id = 'game-over-btn';
+    // al click del bottone play again ricarico la pagina perdendo i progressi
+    btn.onclick = () => {reset()};
+    
+    innerContainer.appendChild(title);
+    innerContainer.appendChild(text);
+    innerContainer.appendChild(btn);
+    container.appendChild(innerContainer);
+
+    document.body.appendChild(container);    
+}
+
+export function gameOver(message){
+    // chiama la funzione popUp e passa come titolo Game Over e il messaggio parametrato
+    popUp('Game Over!', message);
+}
+
+export function victory(message){
+    // chiama la funzione popUp e passa come titolo Victory con il messaggio preso in input
+    popUp('Victory!', message);
 }

@@ -14,24 +14,24 @@
 </head>
 <body>
     <div class="flex-column" id="main-container">
-        <main class="flex-column">
-            <section>
+        <main>
+            <section id="stats-section">
                 <div class="flex-row" id="stats-container">
-                    <div class="flex-row stats-desk-container">
+                    <div class="flex-row stats-desk-container" id="points-box">
                         <div class="flex-column stats-box">
                             <img src="../assets/icons/RecordIcon.png" alt="Record icon">
                             <p id="points-number">0</p>
                         </div>
                     </div>
-                    <div class="flex-row stats-desk-container">
-                        <div class="flex-column stats-box" id="timer">
+                    <div class="flex-row stats-desk-container" id="timer-box">
+                        <div class="flex-column stats-box">
                             <img src="../assets/icons/AlarmIcon.png" alt="Timer icon">
                             <p id="timer-number">00:00:00</p>
                         </div>
                     </div>
                 </div>
             </section>
-            <section class="flex-row xy-centered">
+            <section class="flex-row xy-centered" id="gameboard-section">
                 <div class="gameboard">
                     <div class="grid">
                         <div class="grid-cell" data-x="0" data-y="0" style="border-top-left-radius: 1.5rem;"></div>

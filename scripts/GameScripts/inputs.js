@@ -1,4 +1,4 @@
-import { checkMovementDirection, isDisabled } from "./helpers.js";
+import { checkMovementDirection, isDisabled, reset } from "./helpers.js";
 import { deleteSmallTiles, generate1024Tile, moveTiles, orderTiles } from "./logic.js"
 
 let startCoordinateX, startCoordinateY;
@@ -74,3 +74,7 @@ document.getElementById('bonus-1').onclick = () => {
     deleteSmallTiles();
     document.getElementById('bonus-1').disabled = true;
 }
+
+window.addEventListener('resize', () => {
+    reset();
+})

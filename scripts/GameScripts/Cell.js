@@ -1,3 +1,5 @@
+import { victory } from "./helpers.js"
+
 export default class Cell {
     // dichiaro localmente le variabili private
     #x
@@ -86,6 +88,11 @@ export default class Cell {
         this.#content = newValue;
         // quando cambia il valore della tessera cambia anche il percorso dell'icona e perciò l'immagine mostrata
         this.#icon = `../assets/icons/tilesIcons/${this.#content}.png`;
+        
+        if(this.#content === 2048){
+            victory('You reached the 2048 tile...')
+        };
+
         // aggiorna il DOM
         this.updateHtmlElement();
     }
