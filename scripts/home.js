@@ -3,7 +3,7 @@ function toMain() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    if(window.innerWidth > 600){
+    if(window.screen.width > 600){
         toMain();
     }
 })
